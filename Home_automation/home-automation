@@ -1,0 +1,50 @@
+#include <FirebaseESP32.h>
+#include <WiFiClient.h>
+#include <WiFi.h>
+
+// Firebase configuration
+#define FIREBASE_HOST "****"
+#define FIREBASE_AUTH "****"
+
+// WiFi configuration
+#define WIFI_SSID "****"
+#define WIFI_PASSWORD "****"
+// Create a FirebaseData object  container for data transactions between the ESP32 and Firebase.
+FirebaseData firebaseData;
+
+void setup() {
+  Serial.begin(115200);
+
+  // Connect to Wi-Fi
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi!");
+
+  // Initialize Firebase
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+  pinMode(2, OUTPUT);
+}
+
+void loop() {
+  // Read the appliance status from Firebase
+  if (Firebase.getString(firebaseData, "/Appliances/appliance1")) {
+    String applianceStatus = firebaseData.stringData();
+
+    // Check the appliance status and control it accordingly
+    if (applianceStatus == "1") {
+      digitalWrite(2, HIGH); // Turn on the appliance
+      Serial.println("Appliance is ON");
+    } else {
+      digitalWrite(2, LOW); // Turn off the appliance
+      Serial.println("Appliance is OFF");
+    }
+  } else {
+    Serial.println("Failed to read appliance status from Firebase");
+  }
+
+  // Add some delay to avoid overloading Firebase with requests
+  delay(1000); // Adjust this delay as needed
+}
