@@ -4,10 +4,10 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
-#define FIREBASE_HOST "clg-project-31554-default-rtdb.firebaseio.com"
-#define FIREBASE_AUTH "pQL8T0NBGy9nW05YZkWLCXjXeaOx1BCDUgvWXIMF"
-#define WIFI_SSID "old_town_road"
-#define WIFI_PASSWORD "Apst2000"
+#define FIREBASE_HOST "***"
+#define FIREBASE_AUTH "***"
+#define WIFI_SSID "***"
+#define WIFI_PASSWORD "***"
 
 FirebaseData firebaseData;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
